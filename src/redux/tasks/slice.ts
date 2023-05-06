@@ -1,17 +1,25 @@
-import { createSlice, PayloadAction, Update } from "@reduxjs/toolkit";
+import { createSlice, Dictionary, PayloadAction, Update } from "@reduxjs/toolkit";
 import { ITask } from "../../types/task";
 import { tasksAdapter } from "./adapter";
 
-const { getInitialState, setAll, updateOne } = tasksAdapter;
+const { setAll, updateOne } = tasksAdapter;
 
-const initialState = getInitialState();
+interface ITaskState {
+  ids: Array<ITask['id']>;
+  entities: Dictionary<ITask>;
+}
+
+const initialState: ITaskState = {
+  ids: [],
+  entities: {},
+};
 
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
     setAllTasks: (state, action: PayloadAction<Array<ITask>>) => {
-      setAll(state, action.payload);
+      return setAll(state, action.payload);
     },
     updateOneTask: (state, action: PayloadAction<ITask>) => {
       const task = action.payload;
@@ -23,8 +31,8 @@ const tasksSlice = createSlice({
         }
       }
 
-      updateOne(state, update);
-    }
+      return updateOne(state, update);
+    },
   }
 });
 

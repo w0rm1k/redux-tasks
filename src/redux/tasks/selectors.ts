@@ -6,14 +6,24 @@ const { getSelectors } = tasksAdapter;
 const { selectIds, selectById } = getSelectors();
 
 const getById = (id: EntityId) => (state: RootState) => {
-  return selectById(state.tasksReducer, id);
+  return selectById(state.tasks.present, id);
 }
 
 const getIds = (state: RootState) => {
-  return selectIds(state.tasksReducer);
+  return selectIds(state.tasks.present);
+}
+
+const canUndo = (state: RootState) => {
+  return state.tasks.past.length > 0;
+}
+
+const canRedo = (state: RootState) => {
+  return state.tasks.future.length > 0;
 }
 
 export const tasksSelectors = {
   getById,
   getIds,
+  canRedo,
+  canUndo,
 }

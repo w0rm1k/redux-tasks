@@ -1,10 +1,11 @@
 import { AnyAction, configureStore, ThunkDispatch } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import undoable from 'redux-undo'
 import { tasksReducer } from './tasks/slice'
 
 export const store = configureStore({
   reducer: {
-    tasksReducer,
+    tasks: undoable(tasksReducer),
   },
 })
 
